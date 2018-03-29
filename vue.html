@@ -14,19 +14,31 @@
 	</style>
 	<script>
 	window.addEventListener('load', () => {
+		const STORY = {
+			fiction: {
+				story: ''
+			}
+		};
 		/*let vm = */new Vue({  // glöm inte window.load!
 			el: '#root',
 			data: {
 				exempel: 'Det fungerar',
 				exempeldos: ' knappt',
-				url: 'https://google.se'
+				url: 'https://google.se',
+				divIsVisible: true,
+				highscoreVisible: false,
+				playLevelVisible: false,
+				text: STORY
 			},  // data
 			methods: {
 				myClick: function(event) {
 					this.exempeldos = ' fantastiskt bra att klicka!';
 					this.another();
 				},
-				another: function() {}
+				another: function() {},
+				toggleVisibleDiv: function(event) {
+					this.divIsVisible = !this.divIsVisible;
+				}
 			}  // methods
 		});  // Vue
 	});  // window load
@@ -36,12 +48,37 @@
 <body>
 
 	<div id="root">
+	<div>
 		Fungerar Vue här?
 		<p v-once>{{ exempeldos }}</p>
-    <p>{{ exempel + exempeldos }}</p>
+		<p>{{ exempel + exempeldos }}</p>
 		<a v-bind:href="url">länk</a>
-		<button v-on:click="myClick">Ändra exempeldos</button>
-</div>
+		<button v-on:click="(event) => myClick(event, 'myValue')">Ändra exempel dos</button>
+	</div>
+	<div>
+		<button @click="toggleVisibleDiv">Ridå?</button>
+		<div v-if="divIsVisible">
+			jag är synlig!
+		</div>
+	</div>
+
+	<div v-if="highscoreVisible">
+		highscores...
+	</div>
+	<div v-else-if="playLevelVisible">
+		play
+	</div>
+	<div v-else>
+		else!
+	</div>
+
+	<div>
+		<input type="text" v-model:value="text.fiction.story" />
+		The value is: {{text.fiction.story}} <br />
+		<input type="text" v-model:value="text.fiction.story" /> <br />
+		<input type="text" v-model:value="text.fiction.story" />
+	</div>
+	</div>
 
 </body>
 </html>
